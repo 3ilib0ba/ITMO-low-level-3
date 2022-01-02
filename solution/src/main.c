@@ -30,6 +30,7 @@ int main(int args, char **argv) {
         printf("Error! Can't read the input file");
         close_file(&input);
         close_file(&output);
+        image_free(image);
         return 1;
     }
     struct image rotated_image = rotate(&image);
@@ -37,6 +38,8 @@ int main(int args, char **argv) {
         printf("Error! Can't write to the output file");
         close_file(&input);
         close_file(&output);
+        image_free(image);
+        image_free(rotated_image);
         return 1;
     }
     if (!close_file(&input) || !close_file(&output)) {

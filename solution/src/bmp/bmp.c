@@ -25,7 +25,7 @@ static enum read_status read_header(FILE* in, struct bmp_header* header) {
     return READ_OK;
 }
 
-static enum read_status read_pixels(struct image* img, FILE* in, uint8_t padding) {
+static enum read_status read_pixels(struct image const * img, FILE* in, uint8_t padding) {
 	size_t width = img->width;
     size_t height = img->height;
     struct pixel* pixels = malloc(width * height * sizeof (struct pixel));
@@ -49,7 +49,7 @@ static uint8_t get_padding(uint32_t width) {
 
 
 
-enum read_status from_bmp(FILE* in, struct image* img) {
+enum read_status from_bmp(FILE* in, struct image const * img) {
 	struct bmp_header header = {0};
 	enum read_status st = read_header(in, &header);
 	if (st == READ_INVALID_HEADER || st == READ_ERROR) {
@@ -87,10 +87,10 @@ static struct bmp_header create_header(struct image* img) {
 
 
 
-static enum write_status write_image(struct image *img, FILE *out, uint8_t padding) {
-	size_t width = img->width;
-    size_t height = img->height;
-	uint64_t zero = 0;
+static enum write_status write_image(struct image const * img, FILE *out, uint8_t padding) {
+	size_t const width = img->width;
+    size_t const height = img->height;
+	uint64_t const zero = 0;
 	uint64_t cnt = 0;
 	for (size_t i = 0; i < height; ++i) {
 		cnt += fwrite(img->pixels + i * width, sizeof (struct pixel), width, out);
@@ -107,7 +107,7 @@ static enum write_status write_image(struct image *img, FILE *out, uint8_t paddi
 
 
 
-enum write_status to_bmp(FILE* out, struct image* img) {
+enum write_status to_bmp(FILE* out, struct image const * img) {
 	struct bmp_header header = create_header(img);
 	if (fwrite(&header, sizeof(struct bmp_header), 1, out) != 1) {
 		return WRITE_ERROR;
