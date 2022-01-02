@@ -26,8 +26,8 @@ static enum read_status read_header(FILE* in, struct bmp_header* header) {
 }
 
 static enum read_status read_pixels(struct image const * img, FILE* in, uint8_t padding) {
-	size_t width = img->width;
-    size_t height = img->height;
+	size_t width = *img.width;
+    size_t height = *img.height;
     struct pixel* pixels = malloc(width * height * sizeof (struct pixel));
 	for (size_t i = 0; i < height; i++) {
 		if (fread(pixels + i * width, sizeof(struct pixel), width, in) != width) {
@@ -37,7 +37,7 @@ static enum read_status read_pixels(struct image const * img, FILE* in, uint8_t 
 			return READ_ERROR;
 		}
 	}
-	img.pixels = pixels;
+	*img.pixels = pixels;
 	return READ_OK;
 }
 
@@ -55,8 +55,8 @@ enum read_status from_bmp(FILE* in, struct image const * img) {
 	if (st == READ_INVALID_HEADER || st == READ_ERROR) {
 		return READ_INVALID_SIGNATURE;
 	}
-	img.width = header.biWidth;
-	img.height = header.biHeight;
+	*img.width = header.biWidth;
+	*img.height = header.biHeight;
 	return read_pixels(img, in, get_padding(header.biWidth));
 }
 
