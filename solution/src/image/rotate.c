@@ -16,7 +16,7 @@ struct image image_create(size_t width, size_t height) {
 }
 
 struct image rotate(struct image const* source ) {
-    struct image output = image_create(source->width, source->height);
+    struct image output = image_create(source->height, source->width);
     for (size_t i = 0; i < source->width; i++) {
         for (size_t j = 0; j < source->height; j++) {
             update_image(&output, source, i, j);
