@@ -11,7 +11,7 @@ enum read_status  {
   /* коды других ошибок  */
 };
 
-enum read_status from_bmp( FILE* in, struct image* img );
+enum read_status from_bmp( FILE* in, struct image const *img );
 
 /*  serializer   */
 enum  write_status  {
@@ -20,4 +20,4 @@ enum  write_status  {
   /* коды других ошибок  */
 };
 
-enum write_status to_bmp( FILE* out, struct image* img );
+enum write_status to_bmp( FILE* out, struct image const *img );
