@@ -37,7 +37,7 @@ static enum read_status read_pixels(struct image const *img, FILE* in, uint8_t p
 			return READ_ERROR;
 		}
 	}
-	img->pixels = pixels;
+    (*img).pixels = pixels;
 	return READ_OK;
 }
 
