@@ -1,3 +1,5 @@
+#include "image/rotate_image.h"
+
 #include <malloc.h>
 
 static void update_image(struct image* output, struct image const* source, int i, int j) {
