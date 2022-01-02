@@ -18,4 +18,15 @@ struct bmp_header {
 	uint32_t biClrUsed;
 	uint32_t biClrImportant;
 };
+
+enum compression_types {
+    BI_RGB = 0,
+    BI_RLE8 = 1,
+    BI_RLE4 = 2,
+    BI_BITFIELDS = 3,
+    BI_JPEG = 4,
+    BI_PNG = 5,
+    BI_ALPHABITFIELDS= 6,
+};
+
 #pragma pack(pop)

@@ -2,15 +2,21 @@
 
 #include <malloc.h>
 
+
 static void update_image(struct image* output, struct image const* source, int i, int j) {
 	output->pixels[i * output->width + j] =  (source->pixels[(source->height - 1 - j) * source->width + i]);
 }
 
-struct image rotate(struct image const* source ) {
+struct image image_create(size_t width, size_t height) {
     struct image output = {0};
-    output.width = source->height;
-    output.height = source->width;
-    output.pixels = malloc(sizeof(struct pixel) * source->width * source->height);
+    output.width = width;
+    output.height = height;
+    output.pixels = malloc(width * height * sizeof(struct pixel));
+    return output;
+}
+
+struct image rotate(struct image const* source ) {
+    struct image output = image_create(source->width, source->height);
     for (size_t i = 0; i < source->width; i++) {
         for (size_t j = 0; j < source->height; j++) {
             update_image(&output, source, i, j);

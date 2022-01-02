@@ -1,5 +1,6 @@
 #include "bmp/bmp_header.h"
 #include "bmp/bmp_io.h"
+#include "image/rotate_image.h"
 
 #include <assert.h>
 #include <malloc.h>
@@ -26,9 +27,10 @@ static enum read_status read_header(FILE* in, struct bmp_header* header) {
 }
 
 static enum read_status read_pixels(struct image *img, FILE* in, uint8_t padding) {
+    struct image copyImage = image_create(img->width, img->height);
 	size_t width = img->width;
     size_t height = img->height;
-    struct pixel* pixels = malloc(width * height * sizeof (struct pixel));
+    struct pixel* pixels = copyImage.pixels;
 	for (size_t i = 0; i < height; i++) {
 		if (fread(pixels + i * width, sizeof(struct pixel), width, in) != width) {
 			return READ_ERROR;
@@ -74,7 +76,7 @@ static struct bmp_header create_header(struct image* img) {
 		.biHeight = img->height,
 		.biPlanes = BMP_PLANES,
 		.biBitCount = 24,
-		.biCompression = 0,
+		.biCompression = BI_RGB,
 		.biSizeImage = img_size,
 		.biXPelsPerMeter = 0,
 		.biYPelsPerMeter = 0,
