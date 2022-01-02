@@ -25,7 +25,7 @@ static enum read_status read_header(FILE* in, struct bmp_header* header) {
     return READ_OK;
 }
 
-static enum read_status read_pixels(struct image const *img, FILE* in, uint8_t padding) {
+static enum read_status read_pixels(struct image *img, FILE* in, uint8_t padding) {
 	size_t width = img->width;
     size_t height = img->height;
     struct pixel* pixels = malloc(width * height * sizeof (struct pixel));
